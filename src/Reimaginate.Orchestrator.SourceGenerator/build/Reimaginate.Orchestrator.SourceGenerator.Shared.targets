@@ -1,0 +1,67 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <OrchestratorSourceGeneratorBuildImported>true</OrchestratorSourceGeneratorBuildImported>
+    <OrchestratorEmitWorkflowActionCatalog Condition="'$(OrchestratorEmitWorkflowActionCatalog)' == ''">true</OrchestratorEmitWorkflowActionCatalog>
+    <_OrchestratorRepoRoot>$([MSBuild]::GetDirectoryNameOfFileAbove('$(MSBuildProjectDirectory)', '.git\HEAD'))</_OrchestratorRepoRoot>
+    <_OrchestratorRepoRoot Condition="'$(_OrchestratorRepoRoot)' == ''">$([MSBuild]::GetDirectoryNameOfFileAbove('$(MSBuildProjectDirectory)', '.git'))</_OrchestratorRepoRoot>
+    <_OrchestratorRepoRoot Condition="'$(_OrchestratorRepoRoot)' == '' and '$(SolutionDir)' != '' and '$(SolutionDir)' != '*Undefined*'">$(SolutionDir)</_OrchestratorRepoRoot>
+    <OrchestratorWorkflowActionCatalogOutputDir Condition="'$(OrchestratorWorkflowActionCatalogOutputDir)' == '' and '$(_OrchestratorRepoRoot)' != ''">$([System.IO.Path]::Combine('$(_OrchestratorRepoRoot)', '.orchestrator', 'workflow-actions'))</OrchestratorWorkflowActionCatalogOutputDir>
+    <OrchestratorWorkflowActionCatalogOutputDir Condition="'$(OrchestratorWorkflowActionCatalogOutputDir)' == ''">$([System.IO.Path]::Combine('$(MSBuildProjectExtensionsPath)', 'orchestrator', 'workflow-actions'))</OrchestratorWorkflowActionCatalogOutputDir>
+    <_OrchestratorCatalogTaskAssembly Condition="'$(_OrchestratorCatalogTaskAssembly)' == ''">$([System.IO.Path]::Combine('$(OrchestratorSourceGeneratorAssetRoot)', 'tasks', 'Reimaginate.Orchestrator.SourceGenerator.CatalogTool.dll'))</_OrchestratorCatalogTaskAssembly>
+    <_OrchestratorCatalogTaskIncrementalInput Condition="'$(_OrchestratorCatalogTaskIncrementalInput)' == ''">$(_OrchestratorCatalogTaskAssembly)</_OrchestratorCatalogTaskIncrementalInput>
+    <_OrchestratorSourceGeneratorAnalyzer Condition="'$(_OrchestratorSourceGeneratorAnalyzer)' == ''">$([System.IO.Path]::Combine('$(OrchestratorSourceGeneratorAssetRoot)', 'analyzers', 'Reimaginate.Orchestrator.SourceGenerator.dll'))</_OrchestratorSourceGeneratorAnalyzer>
+    <_OrchestratorCatalogPath>$([System.IO.Path]::Combine('$(OrchestratorWorkflowActionCatalogOutputDir)', '$(AssemblyName).json'))</_OrchestratorCatalogPath>
+    <_OrchestratorExpectedWorkflowActionCatalogMissing Condition="'$(_OrchestratorCatalogPath)' != '' and !Exists('$(_OrchestratorCatalogPath)')">true</_OrchestratorExpectedWorkflowActionCatalogMissing>
+    <_OrchestratorCatalogStamp>$([System.IO.Path]::Combine('$(MSBuildProjectExtensionsPath)', '$(Configuration)', '$(TargetFramework)', 'orchestrator', 'workflow-action-catalog.stamp'))</_OrchestratorCatalogStamp>
+    <_OrchestratorShouldEmitWorkflowActionCatalog Condition="'$(DesignTimeBuild)' != 'true' and '$(IsCrossTargetingBuild)' != 'true' and '$(OrchestratorEmitWorkflowActionCatalog)' != 'false'">true</_OrchestratorShouldEmitWorkflowActionCatalog>
+    <_OrchestratorShouldEmitWorkflowActionCatalog Condition="'$(DesignTimeBuild)' != 'true' and '$(IsCrossTargetingBuild)' != 'true' and '$(_OrchestratorEmitWorkflowActionCatalogDefaultedFalse)' == 'true' and '$(_OrchestratorExpectedWorkflowActionCatalogMissing)' == 'true'">true</_OrchestratorShouldEmitWorkflowActionCatalog>
+  </PropertyGroup>
+
+  <ItemGroup Condition="Exists('$(_OrchestratorSourceGeneratorAnalyzer)')">
+    <Analyzer Include="$(_OrchestratorSourceGeneratorAnalyzer)" />
+  </ItemGroup>
+
+  <UsingTask TaskName="Reimaginate.Orchestrator.SourceGenerator.CatalogTool.EmitWorkflowActionCatalogTask"
+             AssemblyFile="$(_OrchestratorCatalogTaskAssembly)"
+             Runtime="NET"
+             Architecture="CurrentArchitecture"
+             Condition="'$(_OrchestratorCatalogTaskAssembly)' != ''" />
+
+  <Target Name="BuildLocalOrchestratorWorkflowActionCatalogTool"
+          BeforeTargets="EmitOrchestratorWorkflowActionCatalog"
+          Condition="'$(_OrchestratorCatalogTaskProject)' != '' and Exists('$(_OrchestratorCatalogTaskProject)') and !Exists('$(_OrchestratorCatalogTaskAssembly)')">
+    <MSBuild Projects="$(_OrchestratorCatalogTaskProject)"
+             Targets="Restore;Build"
+             Properties="Configuration=$(Configuration)"
+             RemoveProperties="TargetFramework;TargetFrameworks;NoBuild"
+             Condition="!Exists('$(_OrchestratorCatalogTaskBuildOutputDir)\Reimaginate.Orchestrator.SourceGenerator.CatalogTool.dll')" />
+    <ItemGroup>
+      <_OrchestratorCatalogTaskBuildOutput Include="$(_OrchestratorCatalogTaskBuildOutputDir)\**\*.*" />
+    </ItemGroup>
+    <MakeDir Directories="$(_OrchestratorCatalogTaskShadowDir)" />
+    <Copy SourceFiles="@(_OrchestratorCatalogTaskBuildOutput)"
+          DestinationFiles="@(_OrchestratorCatalogTaskBuildOutput->'$(_OrchestratorCatalogTaskShadowDir)\%(RecursiveDir)%(Filename)%(Extension)')"
+          SkipUnchangedFiles="true" />
+  </Target>
+
+  <Target Name="EmitOrchestratorWorkflowActionCatalog"
+          AfterTargets="Build"
+          Condition="'$(_OrchestratorShouldEmitWorkflowActionCatalog)' == 'true' and '$(_OrchestratorCatalogTaskAssembly)' != '' and ('$(_OrchestratorCatalogTaskUsesShadowCopy)' == 'true' or Exists('$(_OrchestratorCatalogTaskAssembly)'))"
+          Inputs="$(MSBuildProjectFullPath);$(TargetPath);@(Compile);@(ReferencePath);$(_OrchestratorCatalogTaskIncrementalInput);$(_OrchestratorSourceGeneratorAnalyzer)"
+          Outputs="$(_OrchestratorCatalogStamp);$(_OrchestratorCatalogPath)">
+    <MakeDir Directories="$([System.IO.Path]::GetDirectoryName('$(_OrchestratorCatalogStamp)'))" />
+    <MakeDir Directories="$([System.IO.Path]::GetDirectoryName('$(_OrchestratorCatalogPath)'))" />
+    <EmitWorkflowActionCatalogTask ProjectPath="$(MSBuildProjectFullPath)"
+                                   CatalogOutputPath="$(_OrchestratorCatalogPath)"
+                                   Configuration="$(Configuration)"
+                                   TargetFramework="$(TargetFramework)"
+                                   ProjectExtensionsPath="$(MSBuildProjectExtensionsPath)" />
+    <WriteLinesToFile File="$(_OrchestratorCatalogStamp)"
+                      Lines="$([System.DateTime]::UtcNow.ToString('O'))"
+                      Overwrite="true" />
+    <ItemGroup>
+      <FileWrites Include="$(_OrchestratorCatalogStamp)" />
+      <FileWrites Include="$(_OrchestratorCatalogPath)" />
+    </ItemGroup>
+  </Target>
+</Project>

@@ -1,0 +1,20 @@
+Orchestrator DSL Attribution Notice
+
+The Orchestrator YAML DSL is a custom workflow language owned and maintained by
+Reimaginate. It is inspired by concepts and terminology from the CNCF Serverless
+Workflow DSL specification:
+
+https://github.com/serverlessworkflow/specification
+
+The Serverless Workflow specification is made available under the Apache License
+2.0:
+
+https://www.apache.org/licenses/LICENSE-2.0
+
+Orchestrator is not an official CNCF or Serverless Workflow project. The
+Orchestrator DSL does not assert conformance to that specification or source
+compatibility with it. Workflow authors should rely on the Orchestrator DSL
+documentation for the supported grammar and runtime behavior.
+
+CNCF, Serverless Workflow, and related names and marks belong to their
+respective owners.

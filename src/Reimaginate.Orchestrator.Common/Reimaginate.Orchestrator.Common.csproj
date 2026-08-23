@@ -1,0 +1,69 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+	    <GeneratePackageOnBuild Condition="'$(GeneratePackageOnBuild)' == '' and '$(Configuration)' != 'Debug'">True</GeneratePackageOnBuild>
+        <Description>Core Orchestrator runtime services, workflow execution, persistence helpers, and transitive workflow action generation support.</Description>
+        <PackageTags>orchestrator;workflow;yaml;runtime;hosting</PackageTags>
+        <TargetsForTfmSpecificContentInPackage>$(TargetsForTfmSpecificContentInPackage);IncludeOrchestratorSourceGeneratorAssetsInPackage</TargetsForTfmSpecificContentInPackage>
+        <!--<EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+		<CompilerGeneratedFilesOutputPath>generated</CompilerGeneratedFilesOutputPath>-->
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Azure.Monitor.OpenTelemetry.Exporter" Version="1.8.3" />
+        <PackageReference Include="FluentValidation" Version="12.1.1" />
+        <PackageReference Include="Handlebars.Net" Version="2.1.6" />
+        <PackageReference Include="Microsoft.Agents.AI" Version="1.15.0" />
+        <PackageReference Include="Microsoft.Agents.AI.Workflows" Version="1.15.0" />
+        <PackageReference Include="Microsoft.Extensions.Configuration" Version="10.0.10" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.10" />
+        <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.10" />
+        <PackageReference Include="Microsoft.Extensions.Http" Version="10.0.10" />
+        <PackageReference Include="Microsoft.Identity.Client" Version="4.87.0" />
+        <PackageReference Include="OpenTelemetry.Exporter.Console" Version="1.17.0" />
+        <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.17.0" />
+        <PackageReference Include="Reimaginate.CLI.Base" Version="1.0.2" />
+        <PackageReference Include="Reimaginate.Mapper.Abstractions" Version="1.3.0" />
+        <PackageReference Include="Reimaginate.Mapper.SourceGenerator" Version="1.3.0" />
+        <PackageReference Include="Reimaginate.Mediator.Abstractions" Version="1.3.0" />
+        <PackageReference Include="Reimaginate.Mediator.SourceGenerator" Version="1.3.0" />
+        <PackageReference Include="YamlDotNet" Version="18.1.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Reimaginate.Orchestrator.Abstractions\Reimaginate.Orchestrator.Abstractions.csproj" SkipGetTargetFrameworkProperties="true" />
+        <ProjectReference Include="..\Reimaginate.Orchestrator.DSL\Reimaginate.Orchestrator.DSL.csproj" SkipGetTargetFrameworkProperties="true" />
+        <ProjectReference Include="..\Reimaginate.Orchestrator.SourceGenerator\Reimaginate.Orchestrator.SourceGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" SkipGetTargetFrameworkProperties="true" />
+    </ItemGroup>
+
+
+    <ItemGroup>
+        <None Include="build\Reimaginate.Orchestrator.Common.props" Pack="true" PackagePath="buildTransitive\Reimaginate.Orchestrator.Common.props" />
+        <None Include="build\Reimaginate.Orchestrator.Common.targets" Pack="true" PackagePath="buildTransitive\Reimaginate.Orchestrator.Common.targets" />
+        <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+            <_Parameter1>Inviga.DHRS.Test.Unit</_Parameter1>
+        </AssemblyAttribute>
+    </ItemGroup>
+
+    <Target Name="BuildOrchestratorSourceGeneratorAssetsForPack">
+        <MSBuild Projects="..\Reimaginate.Orchestrator.SourceGenerator\Reimaginate.Orchestrator.SourceGenerator.csproj;..\Reimaginate.Orchestrator.SourceGenerator.CatalogTool\Reimaginate.Orchestrator.SourceGenerator.CatalogTool.csproj" Targets="Restore;Build" Properties="Configuration=$(Configuration)" RemoveProperties="TargetFramework;TargetFrameworks;NoBuild" />
+    </Target>
+
+    <Target Name="IncludeOrchestratorSourceGeneratorAssetsInPackage" DependsOnTargets="BuildOrchestratorSourceGeneratorAssetsForPack">
+        <ItemGroup>
+            <TfmSpecificPackageFile Include="..\Reimaginate.Orchestrator.SourceGenerator\bin\$(Configuration)\netstandard2.0\Reimaginate.Orchestrator.SourceGenerator.dll">
+                <PackagePath>buildTransitive\orchestrator-source-generator\analyzers\Reimaginate.Orchestrator.SourceGenerator.dll</PackagePath>
+            </TfmSpecificPackageFile>
+            <TfmSpecificPackageFile Include="..\Reimaginate.Orchestrator.SourceGenerator\build\Reimaginate.Orchestrator.SourceGenerator.Shared.targets">
+                <PackagePath>buildTransitive\orchestrator-source-generator\Reimaginate.Orchestrator.SourceGenerator.Shared.targets</PackagePath>
+            </TfmSpecificPackageFile>
+            <TfmSpecificPackageFile Include="..\Reimaginate.Orchestrator.SourceGenerator.CatalogTool\bin\$(Configuration)\net10.0\**\*.*">
+                <PackagePath>buildTransitive\orchestrator-source-generator\tasks\%(RecursiveDir)</PackagePath>
+            </TfmSpecificPackageFile>
+        </ItemGroup>
+    </Target>
+
+</Project>

@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+	    <GeneratePackageOnBuild Condition="'$(GeneratePackageOnBuild)' == '' and '$(Configuration)' != 'Debug'">True</GeneratePackageOnBuild>
+        <Description>Azure Blob Storage-backed checkpoint, workflow definition, and workflow instance persistence for Orchestrator.</Description>
+        <PackageTags>orchestrator;workflow;azure;storage</PackageTags>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Azure.Storage.Blobs" Version="12.29.1" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.10" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Reimaginate.Orchestrator.Abstractions\Reimaginate.Orchestrator.Abstractions.csproj" />
+      <ProjectReference Include="..\Reimaginate.Orchestrator.Common\Reimaginate.Orchestrator.Common.csproj" />
+    </ItemGroup>
+
+</Project>

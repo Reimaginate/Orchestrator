@@ -1,0 +1,22 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <OrchestratorSourceGeneratorTargetsOwner Condition="'$(OrchestratorSourceGeneratorTargetsOwner)' == ''">sourcegenerator</OrchestratorSourceGeneratorTargetsOwner>
+    <OrchestratorSourceGeneratorAssetRoot Condition="'$(OrchestratorSourceGeneratorAssetRoot)' == ''">$(MSBuildThisFileDirectory)source-generator</OrchestratorSourceGeneratorAssetRoot>
+    <OrchestratorSourceGeneratorBuildImported>true</OrchestratorSourceGeneratorBuildImported>
+    <_OrchestratorSourceGeneratorSharedTargets>$([System.IO.Path]::Combine('$(OrchestratorSourceGeneratorAssetRoot)', 'Reimaginate.Orchestrator.SourceGenerator.Shared.targets'))</_OrchestratorSourceGeneratorSharedTargets>
+    <_OrchestratorSourceGeneratorLocalRoot Condition="!Exists('$(_OrchestratorSourceGeneratorSharedTargets)') and Exists('$(MSBuildThisFileDirectory)Reimaginate.Orchestrator.SourceGenerator.Shared.targets')">$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\'))</_OrchestratorSourceGeneratorLocalRoot>
+    <_OrchestratorSourceGeneratorSharedTargets Condition="'$(_OrchestratorSourceGeneratorLocalRoot)' != ''">$(MSBuildThisFileDirectory)Reimaginate.Orchestrator.SourceGenerator.Shared.targets</_OrchestratorSourceGeneratorSharedTargets>
+    <_OrchestratorSourceGeneratorAnalyzer Condition="'$(_OrchestratorSourceGeneratorLocalRoot)' != '' and '$(_OrchestratorSourceGeneratorAnalyzer)' == ''">$([System.IO.Path]::Combine('$(_OrchestratorSourceGeneratorLocalRoot)', 'bin', '$(Configuration)', 'netstandard2.0', 'Reimaginate.Orchestrator.SourceGenerator.dll'))</_OrchestratorSourceGeneratorAnalyzer>
+    <_OrchestratorCatalogTaskProject Condition="'$(_OrchestratorSourceGeneratorLocalRoot)' != ''">$([System.IO.Path]::Combine('$(_OrchestratorSourceGeneratorLocalRoot)', '..', 'Reimaginate.Orchestrator.SourceGenerator.CatalogTool', 'Reimaginate.Orchestrator.SourceGenerator.CatalogTool.csproj'))</_OrchestratorCatalogTaskProject>
+    <_OrchestratorCatalogTaskBuildOutputDir Condition="'$(_OrchestratorSourceGeneratorLocalRoot)' != ''">$([System.IO.Path]::Combine('$(_OrchestratorSourceGeneratorLocalRoot)', '..', 'Reimaginate.Orchestrator.SourceGenerator.CatalogTool', 'bin', '$(Configuration)', 'net10.0'))</_OrchestratorCatalogTaskBuildOutputDir>
+    <_OrchestratorCatalogTaskBuildOutputAssembly Condition="'$(_OrchestratorCatalogTaskBuildOutputDir)' != ''">$([System.IO.Path]::Combine('$(_OrchestratorCatalogTaskBuildOutputDir)', 'Reimaginate.Orchestrator.SourceGenerator.CatalogTool.dll'))</_OrchestratorCatalogTaskBuildOutputAssembly>
+    <_OrchestratorCatalogTaskIncrementalInput Condition="'$(_OrchestratorCatalogTaskBuildOutputAssembly)' != ''">$(_OrchestratorCatalogTaskBuildOutputAssembly)</_OrchestratorCatalogTaskIncrementalInput>
+    <_OrchestratorCatalogTaskShadowId Condition="'$(_OrchestratorSourceGeneratorLocalRoot)' != ''">$([System.Guid]::NewGuid().ToString('N'))</_OrchestratorCatalogTaskShadowId>
+    <_OrchestratorCatalogTaskShadowDir Condition="'$(_OrchestratorSourceGeneratorLocalRoot)' != ''">$([System.IO.Path]::Combine('$(MSBuildProjectExtensionsPath)', '$(Configuration)', '$(TargetFramework)', 'orchestrator', 'catalog-tool', '$(_OrchestratorCatalogTaskShadowId)'))</_OrchestratorCatalogTaskShadowDir>
+    <_OrchestratorCatalogTaskUsesShadowCopy Condition="'$(_OrchestratorSourceGeneratorLocalRoot)' != ''">true</_OrchestratorCatalogTaskUsesShadowCopy>
+    <_OrchestratorCatalogTaskAssembly Condition="'$(_OrchestratorSourceGeneratorLocalRoot)' != '' and '$(_OrchestratorCatalogTaskAssembly)' == ''">$([System.IO.Path]::Combine('$(_OrchestratorCatalogTaskShadowDir)', 'Reimaginate.Orchestrator.SourceGenerator.CatalogTool.dll'))</_OrchestratorCatalogTaskAssembly>
+  </PropertyGroup>
+
+  <Import Project="$(_OrchestratorSourceGeneratorSharedTargets)"
+          Condition="'$(OrchestratorSourceGeneratorTargetsOwner)' == 'sourcegenerator' and Exists('$(_OrchestratorSourceGeneratorSharedTargets)')" />
+</Project>

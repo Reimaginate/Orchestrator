@@ -1,0 +1,54 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+		<Description>Source generator and build tasks for Orchestrator workflow action resolvers and editor action catalogs.</Description>
+		<PackageTags>orchestrator;workflow;yaml;source-generator;msbuild</PackageTags>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<IncludeBuildOutput>false</IncludeBuildOutput>
+		<Nullable>enable</Nullable>
+		<ImplicitUsing>true</ImplicitUsing>
+		<LangVersion>12.0</LangVersion>
+		<EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
+		<IsRoslynComponent>true</IsRoslynComponent>
+		<TargetsForTfmSpecificContentInPackage>$(TargetsForTfmSpecificContentInPackage);IncludeWorkflowActionCatalogToolInPackage</TargetsForTfmSpecificContentInPackage>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="5.6.0">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="5.6.0" PrivateAssets="all" />
+		<PackageReference Include="System.Collections.Immutable" Version="10.0.10" PrivateAssets="all" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Remove="SourceProjectModel.cs;ProjectDiscovery.cs;WorkflowActionSymbolDiscovery.cs;MsBuildProjectInfo.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Reimaginate.Orchestrator.Abstractions\Reimaginate.Orchestrator.Abstractions.csproj" ReferenceOutputAssembly="false" SkipGetTargetFrameworkProperties="true" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="build\Reimaginate.Orchestrator.SourceGenerator.props" Pack="true" PackagePath="buildTransitive\Reimaginate.Orchestrator.SourceGenerator.props" />
+		<None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="buildTransitive\source-generator\analyzers\$(AssemblyName).dll" Visible="false" />
+		<None Include="build\Reimaginate.Orchestrator.SourceGenerator.targets" Pack="true" PackagePath="buildTransitive\Reimaginate.Orchestrator.SourceGenerator.targets" />
+		<None Include="build\Reimaginate.Orchestrator.SourceGenerator.Shared.targets" Pack="true" PackagePath="buildTransitive\source-generator\Reimaginate.Orchestrator.SourceGenerator.Shared.targets" />
+	</ItemGroup>
+
+	<Target Name="BuildWorkflowActionCatalogToolForPack">
+		<MSBuild Projects="..\Reimaginate.Orchestrator.SourceGenerator.CatalogTool\Reimaginate.Orchestrator.SourceGenerator.CatalogTool.csproj" Targets="Restore;Build" Properties="Configuration=$(Configuration)" RemoveProperties="TargetFramework;TargetFrameworks;NoBuild" />
+	</Target>
+
+	<Target Name="IncludeWorkflowActionCatalogToolInPackage" DependsOnTargets="BuildWorkflowActionCatalogToolForPack">
+		<ItemGroup>
+			<TfmSpecificPackageFile Include="..\Reimaginate.Orchestrator.SourceGenerator.CatalogTool\bin\$(Configuration)\net10.0\**\*.*">
+				<PackagePath>buildTransitive\source-generator\tasks\%(RecursiveDir)</PackagePath>
+			</TfmSpecificPackageFile>
+		</ItemGroup>
+	</Target>
+
+</Project>

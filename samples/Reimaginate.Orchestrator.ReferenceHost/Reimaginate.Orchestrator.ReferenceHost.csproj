@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsPackable>false</IsPackable>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.10" />
+    <PackageReference Include="Reimaginate.CLI.Base" Version="1.0.2" />
+    <PackageReference Include="Reimaginate.Mediator" Version="1.3.0" />
+    <PackageReference Include="System.CommandLine" Version="2.0.10" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Reimaginate.Orchestrator.Abstractions\Reimaginate.Orchestrator.Abstractions.csproj" />
+    <ProjectReference Include="..\..\src\Reimaginate.Orchestrator.CommandLine\Reimaginate.Orchestrator.CommandLine.csproj" />
+    <ProjectReference Include="..\..\src\Reimaginate.Orchestrator.Common\Reimaginate.Orchestrator.Common.csproj" />
+    <ProjectReference Include="..\..\src\Reimaginate.Orchestrator.SourceGenerator\Reimaginate.Orchestrator.SourceGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" SkipGetTargetFrameworkProperties="true" />
+  </ItemGroup>
+  <Import Project="..\..\src\Reimaginate.Orchestrator.SourceGenerator\build\Reimaginate.Orchestrator.SourceGenerator.targets"
+          Condition="Exists('..\..\src\Reimaginate.Orchestrator.SourceGenerator\build\Reimaginate.Orchestrator.SourceGenerator.targets')" />
+</Project>

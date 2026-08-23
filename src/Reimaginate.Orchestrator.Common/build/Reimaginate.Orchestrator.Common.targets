@@ -1,0 +1,10 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <OrchestratorSourceGeneratorAssetRoot Condition="'$(OrchestratorSourceGeneratorAssetRoot)' == ''">$(MSBuildThisFileDirectory)orchestrator-source-generator</OrchestratorSourceGeneratorAssetRoot>
+    <OrchestratorSourceGeneratorBuildImported>true</OrchestratorSourceGeneratorBuildImported>
+    <_OrchestratorSourceGeneratorSharedTargets>$([System.IO.Path]::Combine('$(OrchestratorSourceGeneratorAssetRoot)', 'Reimaginate.Orchestrator.SourceGenerator.Shared.targets'))</_OrchestratorSourceGeneratorSharedTargets>
+  </PropertyGroup>
+
+  <Import Project="$(_OrchestratorSourceGeneratorSharedTargets)"
+          Condition="'$(OrchestratorSourceGeneratorTargetsOwner)' == 'common' and Exists('$(_OrchestratorSourceGeneratorSharedTargets)')" />
+</Project>

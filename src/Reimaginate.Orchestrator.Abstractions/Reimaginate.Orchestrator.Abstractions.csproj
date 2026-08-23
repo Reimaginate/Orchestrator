@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+	    <GeneratePackageOnBuild Condition="'$(GeneratePackageOnBuild)' == '' and '$(Configuration)' != 'Debug'">True</GeneratePackageOnBuild>
+        <Description>Contracts and attributes for defining Orchestrator workflow actions and workflow action resolvers.</Description>
+        <PackageTags>orchestrator;workflow;yaml;abstractions</PackageTags>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Agents.AI" Version="1.15.0" />
+        <PackageReference Include="Microsoft.Agents.AI.Workflows" Version="1.15.0" />
+        <PackageReference Include="System.Memory.Data" Version="10.0.10" />
+    </ItemGroup>
+
+</Project>

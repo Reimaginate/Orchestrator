@@ -1,0 +1,13 @@
+<Solution>
+  <Project Path="samples/Reimaginate.Orchestrator.ReferenceHost/Reimaginate.Orchestrator.ReferenceHost.csproj" />
+  <Project Path="src/Reimaginate.Orchestrator.Abstractions/Reimaginate.Orchestrator.Abstractions.csproj" />
+  <Project Path="src/Reimaginate.Orchestrator.AzureStorage/Reimaginate.Orchestrator.AzureStorage.csproj" />
+  <Project Path="src/Reimaginate.Orchestrator.CommandLine/Reimaginate.Orchestrator.CommandLine.csproj" />
+  <Project Path="src/Reimaginate.Orchestrator.Common/Reimaginate.Orchestrator.Common.csproj" />
+  <Project Path="src/Reimaginate.Orchestrator.DSL/Reimaginate.Orchestrator.DSL.csproj" />
+  <Project Path="src/Reimaginate.Orchestrator.Redis/Reimaginate.Orchestrator.Redis.csproj" />
+  <Project Path="src/Reimaginate.Orchestrator.SourceGenerator.CatalogTool/Reimaginate.Orchestrator.SourceGenerator.CatalogTool.csproj" />
+  <Project Path="src/Reimaginate.Orchestrator.SourceGenerator/Reimaginate.Orchestrator.SourceGenerator.csproj" />
+  <Project Path="test/Reimaginate.Orchestrator.Test.Base/Reimaginate.Orchestrator.Test.Base.csproj" />
+  <Project Path="test/Reimaginate.Orchestrator.Test.Unit/Reimaginate.Orchestrator.Test.Unit.csproj" />
+</Solution>

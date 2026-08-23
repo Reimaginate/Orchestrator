@@ -1,0 +1,8 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <OrchestratorSourceGeneratorTargetsOwner Condition="'$(OrchestratorSourceGeneratorTargetsOwner)' == ''">sourcegenerator</OrchestratorSourceGeneratorTargetsOwner>
+    <OrchestratorSourceGeneratorAssetRoot Condition="'$(OrchestratorSourceGeneratorAssetRoot)' == ''">$(MSBuildThisFileDirectory)source-generator</OrchestratorSourceGeneratorAssetRoot>
+    <OrchestratorSourceGeneratorBuildImported>true</OrchestratorSourceGeneratorBuildImported>
+    <_OrchestratorSourceGeneratorAnalyzer Condition="'$(OrchestratorSourceGeneratorTargetsOwner)' == 'sourcegenerator'">$([System.IO.Path]::Combine('$(OrchestratorSourceGeneratorAssetRoot)', 'analyzers', 'Reimaginate.Orchestrator.SourceGenerator.dll'))</_OrchestratorSourceGeneratorAnalyzer>
+  </PropertyGroup>
+</Project>

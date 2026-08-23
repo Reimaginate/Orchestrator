@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsPackable>false</IsPackable>
+    <UsingMicrosoftTestingPlatform>true</UsingMicrosoftTestingPlatform>
+    <TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="FluentAssertions" Version="8.10.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="5.6.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.8.1" />
+    <PackageReference Include="Microsoft.Testing.Platform" Version="2.3.3" />
+    <PackageReference Include="NSubstitute" Version="6.0.0" />
+    <PackageReference Include="xunit.v3.mtp-v2" Version="3.2.2" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Reimaginate.Orchestrator.Abstractions\Reimaginate.Orchestrator.Abstractions.csproj" />
+    <ProjectReference Include="..\..\src\Reimaginate.Orchestrator.AzureStorage\Reimaginate.Orchestrator.AzureStorage.csproj" />
+    <ProjectReference Include="..\..\src\Reimaginate.Orchestrator.CommandLine\Reimaginate.Orchestrator.CommandLine.csproj" />
+    <ProjectReference Include="..\..\src\Reimaginate.Orchestrator.Common\Reimaginate.Orchestrator.Common.csproj" />
+    <ProjectReference Include="..\..\src\Reimaginate.Orchestrator.DSL\Reimaginate.Orchestrator.DSL.csproj" />
+    <ProjectReference Include="..\..\src\Reimaginate.Orchestrator.Redis\Reimaginate.Orchestrator.Redis.csproj" />
+    <ProjectReference Include="..\..\src\Reimaginate.Orchestrator.SourceGenerator\Reimaginate.Orchestrator.SourceGenerator.csproj" />
+    <ProjectReference Include="..\..\src\Reimaginate.Orchestrator.SourceGenerator.CatalogTool\Reimaginate.Orchestrator.SourceGenerator.CatalogTool.csproj" />
+    <ProjectReference Include="..\Reimaginate.Orchestrator.Test.Base\Reimaginate.Orchestrator.Test.Base.csproj" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>12.0</LangVersion>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Build" Version="18.8.2" />
+    <PackageReference Include="Microsoft.Build.Framework" Version="18.8.2" />
+    <PackageReference Include="Microsoft.Build.Utilities.Core" Version="18.8.2" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="5.6.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\Reimaginate.Orchestrator.SourceGenerator\AssemblySymbolResolver.cs" Link="Shared\AssemblySymbolResolver.cs" />
+    <Compile Include="..\Reimaginate.Orchestrator.SourceGenerator\SourceProjectModel.cs" Link="Shared\SourceProjectModel.cs" />
+    <Compile Include="..\Reimaginate.Orchestrator.SourceGenerator\ProjectDiscovery.cs" Link="Shared\ProjectDiscovery.cs" />
+    <Compile Include="..\Reimaginate.Orchestrator.SourceGenerator\WorkflowActionSymbolDiscovery.cs" Link="Shared\WorkflowActionSymbolDiscovery.cs" />
+    <Compile Include="..\Reimaginate.Orchestrator.SourceGenerator\MsBuildProjectInfo.cs" Link="Shared\MsBuildProjectInfo.cs" />
+    <Compile Include="..\Reimaginate.Orchestrator.SourceGenerator\WorkflowDiscoveryNames.cs" Link="Shared\WorkflowDiscoveryNames.cs" />
+  </ItemGroup>
+
+</Project>
