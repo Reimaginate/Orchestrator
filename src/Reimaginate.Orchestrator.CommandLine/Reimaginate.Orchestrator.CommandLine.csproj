@@ -5,7 +5,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <GeneratePackageOnBuild Condition="'$(GeneratePackageOnBuild)' == '' and '$(Configuration)' != 'Debug'">True</GeneratePackageOnBuild>
-        <Description>Reusable command-line commands and hosting extensions for Orchestrator workflow hosts.</Description>
+        <Description>Reusable CLI commands and host composition for Reimaginate's Microsoft Agent Framework-based workflow layer.</Description>
         <PackageTags>orchestrator;workflow;cli;hosting</PackageTags>
     </PropertyGroup>
 

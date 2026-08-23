@@ -5,7 +5,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
 	    <GeneratePackageOnBuild Condition="'$(GeneratePackageOnBuild)' == '' and '$(Configuration)' != 'Debug'">True</GeneratePackageOnBuild>
-        <Description>YAML DSL models, parsing, and validation support for Orchestrator workflow definitions.</Description>
+        <Description>YAML DSL models, parsing, and validation for workflow graphs executed by Microsoft Agent Framework Workflows.</Description>
         <PackageTags>orchestrator;workflow;yaml;dsl</PackageTags>
     </PropertyGroup>
 

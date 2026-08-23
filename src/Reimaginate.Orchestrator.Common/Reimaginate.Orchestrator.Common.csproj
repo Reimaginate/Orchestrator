@@ -5,7 +5,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
 	    <GeneratePackageOnBuild Condition="'$(GeneratePackageOnBuild)' == '' and '$(Configuration)' != 'Debug'">True</GeneratePackageOnBuild>
-        <Description>Core Orchestrator runtime services, workflow execution, persistence helpers, and transitive workflow action generation support.</Description>
+        <Description>Opinionated YAML workflow execution, durability, and hosting services built on Microsoft Agent Framework Workflows.</Description>
         <PackageTags>orchestrator;workflow;yaml;runtime;hosting</PackageTags>
         <TargetsForTfmSpecificContentInPackage>$(TargetsForTfmSpecificContentInPackage);IncludeOrchestratorSourceGeneratorAssetsInPackage</TargetsForTfmSpecificContentInPackage>
         <!--<EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>

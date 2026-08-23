@@ -1,5 +1,7 @@
 # Reimaginate.Orchestrator.Redis
 
+Orchestrator is Reimaginate's opinionated YAML workflow and durability layer built on the [Microsoft Agent Framework Workflows runtime](https://github.com/microsoft/agent-framework).
+
 Redis-backed workflow instance locking integration for Orchestrator.
 
 Register it after core Orchestrator services:

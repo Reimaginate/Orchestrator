@@ -5,7 +5,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
 	    <GeneratePackageOnBuild Condition="'$(GeneratePackageOnBuild)' == '' and '$(Configuration)' != 'Debug'">True</GeneratePackageOnBuild>
-        <Description>Contracts and attributes for defining Orchestrator workflow actions and workflow action resolvers.</Description>
+        <Description>Contracts and attributes for Reimaginate's Microsoft Agent Framework-based workflow layer.</Description>
         <PackageTags>orchestrator;workflow;yaml;abstractions</PackageTags>
     </PropertyGroup>
 

@@ -1,5 +1,7 @@
 # Reimaginate.Orchestrator.SourceGenerator
 
+Orchestrator is Reimaginate's opinionated YAML workflow and durability layer built on the [Microsoft Agent Framework Workflows runtime](https://github.com/microsoft/agent-framework).
+
 This package provides:
 
 - the `WorkflowActionResolver` source generator

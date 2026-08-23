@@ -1,3 +1,18 @@
+Microsoft Agent Framework Attribution Notice
+
+Orchestrator is built on Microsoft Agent Framework Workflows:
+
+https://github.com/microsoft/agent-framework
+
+Microsoft Agent Framework is developed by Microsoft and is made available under
+the MIT License:
+
+https://github.com/microsoft/agent-framework/blob/main/LICENSE
+
+Orchestrator is an independent Reimaginate project and is not affiliated with,
+endorsed by, or sponsored by Microsoft. Microsoft, Microsoft Agent Framework,
+and related names and marks belong to their respective owners.
+
 Orchestrator DSL Attribution Notice
 
 The Orchestrator YAML DSL is a custom workflow language owned and maintained by

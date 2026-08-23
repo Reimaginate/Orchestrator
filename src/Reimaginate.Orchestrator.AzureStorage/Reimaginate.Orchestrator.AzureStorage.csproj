@@ -5,7 +5,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
 	    <GeneratePackageOnBuild Condition="'$(GeneratePackageOnBuild)' == '' and '$(Configuration)' != 'Debug'">True</GeneratePackageOnBuild>
-        <Description>Azure Blob Storage-backed checkpoint, workflow definition, and workflow instance persistence for Orchestrator.</Description>
+        <Description>Azure Blob Storage-backed checkpoint and workflow persistence for Reimaginate's Microsoft Agent Framework-based workflow layer.</Description>
         <PackageTags>orchestrator;workflow;azure;storage</PackageTags>
     </PropertyGroup>
 

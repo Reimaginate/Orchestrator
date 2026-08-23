@@ -1,5 +1,7 @@
 # Reimaginate.Orchestrator.Abstractions
 
+Orchestrator is Reimaginate's opinionated YAML workflow and durability layer built on the [Microsoft Agent Framework Workflows runtime](https://github.com/microsoft/agent-framework).
+
 Contracts and attributes for Orchestrator workflow hosts and action libraries.
 
 This package includes:

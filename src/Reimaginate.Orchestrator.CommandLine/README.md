@@ -1,5 +1,7 @@
 # Reimaginate.Orchestrator.CommandLine
 
+Orchestrator is Reimaginate's opinionated YAML workflow and durability layer built on the [Microsoft Agent Framework Workflows runtime](https://github.com/microsoft/agent-framework).
+
 Reusable command-line commands and host wiring for Orchestrator workflow applications.
 
 Typical usage:

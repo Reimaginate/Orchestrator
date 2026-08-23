@@ -5,7 +5,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <GeneratePackageOnBuild Condition="'$(GeneratePackageOnBuild)' == '' and '$(Configuration)' != 'Debug'">True</GeneratePackageOnBuild>
-        <Description>Redis-backed workflow instance locking integration for Orchestrator.</Description>
+        <Description>Redis-backed workflow instance locking for Reimaginate's Microsoft Agent Framework-based workflow layer.</Description>
         <PackageTags>orchestrator;workflow;redis;locking</PackageTags>
     </PropertyGroup>
 

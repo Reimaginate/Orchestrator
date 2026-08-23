@@ -3,7 +3,7 @@
 	<PropertyGroup>
 		<TargetFramework>netstandard2.0</TargetFramework>
 		<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
-		<Description>Source generator and build tasks for Orchestrator workflow action resolvers and editor action catalogs.</Description>
+		<Description>Source generation and build tooling for Reimaginate's Microsoft Agent Framework-based workflow layer.</Description>
 		<PackageTags>orchestrator;workflow;yaml;source-generator;msbuild</PackageTags>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<IncludeBuildOutput>false</IncludeBuildOutput>
