@@ -76,11 +76,29 @@ internal static class WorkflowInputParser
             }
 
             var value = segment[(separatorIndex + 1)..].Trim();
-            result[key] = value;
+            result[key] = ParsePairValue(value);
         }
 
         pairObject = result;
         return true;
+    }
+
+    private static JsonNode? ParsePairValue(string value)
+    {
+        try
+        {
+            var node = JsonNode.Parse(value);
+            if (node is null or JsonValue)
+            {
+                return node;
+            }
+        }
+        catch (JsonException)
+        {
+            // Values that are not JSON scalars remain strings.
+        }
+
+        return JsonValue.Create(value);
     }
 
     private static JsonObject WrapValue(string value)

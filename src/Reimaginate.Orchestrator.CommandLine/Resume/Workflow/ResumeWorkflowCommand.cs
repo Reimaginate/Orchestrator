@@ -12,7 +12,7 @@ namespace Reimaginate.Orchestrator.CommandLine.Resume.Workflow;
 
 [Argument("workflowType", typeof(string), required: true, allowMultiple: false, description: "Workflow type")]
 [Argument("workflowInstanceId", typeof(string), required: true, allowMultiple: false, description: "Workflow instance id")]
-[Option("input", typeof(string), required: false, description: "Workflow resume input as a raw string, JSON object, or comma-delimited key=value pairs")]
+[Option("input", typeof(string), required: false, description: "Workflow resume input as a raw string, JSON object, or comma-delimited key=value pairs; pair values recognize JSON booleans, numbers, null, and double-quoted strings; other text remains a string")]
 [Option("checkpoints", typeof(string), required: false, description: WorkflowExecutionPolicyCommandOptions.CheckpointsDescription)]
 [Option("workflow-instances", typeof(string), required: false, description: WorkflowExecutionPolicyCommandOptions.WorkflowInstancesDescription)]
 [Option("log-steps", typeof(bool), required: false, description: "Write each authored workflow step to the console as it is entered")]
