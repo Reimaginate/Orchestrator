@@ -9,9 +9,9 @@ internal static class WorkflowCompletionOutputWriter
         WriteIndented = true
     };
 
-    public static void WriteIfPresent(string workflowType, string workflowInstanceId, object? finalOutput)
+    public static void WriteIfPresent(string workflowType, string workflowInstanceId, object? finalOutput, bool emitFinalOutput)
     {
-        if (finalOutput is null)
+        if (!emitFinalOutput || finalOutput is null)
         {
             return;
         }

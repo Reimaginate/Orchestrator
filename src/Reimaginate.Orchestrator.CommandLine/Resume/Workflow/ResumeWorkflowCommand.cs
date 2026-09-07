@@ -1,9 +1,13 @@
 using System.CommandLine;
+using System.CommandLine.Parsing;
 using System.Diagnostics;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Reimaginate.CLI.Base.Abstractions;
 using Reimaginate.CLI.Base.Attributes;
 using Reimaginate.Mediator;
 using Reimaginate.Mediator.Abstractions;
+using Reimaginate.Orchestrator.CommandLine.Config;
 using Reimaginate.Orchestrator.Common;
 using Reimaginate.Orchestrator.Common.Diagnostics;
 using Reimaginate.Orchestrator.Common.Requests.External.ResumeWorkflow;
@@ -16,13 +20,16 @@ namespace Reimaginate.Orchestrator.CommandLine.Resume.Workflow;
 [Option("checkpoints", typeof(string), required: false, description: WorkflowExecutionPolicyCommandOptions.CheckpointsDescription)]
 [Option("workflow-instances", typeof(string), required: false, description: WorkflowExecutionPolicyCommandOptions.WorkflowInstancesDescription)]
 [Option("log-steps", typeof(bool), required: false, description: "Write each authored workflow step to the console as it is entered")]
+[Option("emit-final-output", typeof(bool), required: false, description: "Override final JSON output for this invocation: true or false; defaults to Orchestrator:CommandLine:EmitFinalOutput when omitted")]
 public class ResumeWorkflowCommand : SubCommand<ResumeCommand>
 {
     private readonly IMediator _mediator;
+    private readonly OrchestratorCommandLineOptions _options;
 
     public ResumeWorkflowCommand(IServiceProvider serviceProvider, IMediator mediator) : base("workflow", serviceProvider)
     {
         _mediator = mediator;
+        _options = serviceProvider.GetService<IOptions<OrchestratorCommandLineOptions>>()?.Value ?? new();
 
         SetAction(async (ParseResult parseResult, CancellationToken cancellationToken) =>
         {
@@ -32,11 +39,14 @@ public class ResumeWorkflowCommand : SubCommand<ResumeCommand>
             var checkpoints = parseResult.GetValue<string>("--checkpoints");
             var workflowInstances = parseResult.GetValue<string>("--workflow-instances");
             var logSteps = parseResult.GetValue<bool>("--log-steps");
-            return await HandleCommand(workflowType!, workflowInstanceId!, input, checkpoints, workflowInstances, logSteps, cancellationToken);
+            var emitFinalOutput = parseResult.GetResult("--emit-final-output") is OptionResult { Implicit: false }
+                ? parseResult.GetValue<bool>("--emit-final-output")
+                : _options.EmitFinalOutput;
+            return await HandleCommand(workflowType!, workflowInstanceId!, input, checkpoints, workflowInstances, logSteps, emitFinalOutput, cancellationToken);
         });
     }
 
-    private async Task<int> HandleCommand(string workflowType, string workflowInstanceId, string? input, string? checkpoints, string? workflowInstances, bool logSteps, CancellationToken cancellationToken = default)
+    private async Task<int> HandleCommand(string workflowType, string workflowInstanceId, string? input, string? checkpoints, string? workflowInstances, bool logSteps, bool emitFinalOutput, CancellationToken cancellationToken = default)
     {
         if (!WorkflowExecutionPolicyCommandOptions.TryCreate(checkpoints, workflowInstances, out var executionPolicyOverride, out var failureReason))
         {
@@ -65,7 +75,7 @@ public class ResumeWorkflowCommand : SubCommand<ResumeCommand>
             {
                 Console.WriteLine($"DiagnosticsPath: {response.DiagnosticsPath}");
             }
-            WorkflowCompletionOutputWriter.WriteIfPresent(workflowType, workflowInstanceId, response.FinalOutput);
+            WorkflowCompletionOutputWriter.WriteIfPresent(workflowType, workflowInstanceId, response.FinalOutput, emitFinalOutput);
             return 0;
         }
 

@@ -1,4 +1,5 @@
 using System.Reflection;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
@@ -12,7 +13,20 @@ public static class ConfigureCommandLine
     {
         ArgumentNullException.ThrowIfNull(services);
 
+        services.AddOptions<OrchestratorCommandLineOptions>();
         return services.AddCommandTypesFromAssemblies(GetCommandAssemblies(additionalCommandAssemblies));
+    }
+
+    public static IServiceCollection AddOrchestratorCommandLine(
+        this IServiceCollection services,
+        IConfiguration configuration,
+        params Assembly[] additionalCommandAssemblies)
+    {
+        ArgumentNullException.ThrowIfNull(services);
+        ArgumentNullException.ThrowIfNull(configuration);
+
+        services.Configure<OrchestratorCommandLineOptions>(configuration.GetSection(OrchestratorCommandLineOptions.SectionName));
+        return services.AddOrchestratorCommandLine(additionalCommandAssemblies);
     }
 
     public static IServiceCollection AddCommandTypesFromAssemblies(
