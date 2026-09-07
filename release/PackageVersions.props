@@ -1,53 +1,53 @@
 <Project>
   <PropertyGroup Condition="'$(MSBuildProjectName)' == 'Reimaginate.Orchestrator.Abstractions'">
-    <VersionPrefix>1.1.7</VersionPrefix>
+    <VersionPrefix>1.1.8</VersionPrefix>
   </PropertyGroup>
   <PropertyGroup Condition="'$(MSBuildProjectName)' == 'Reimaginate.Orchestrator.AzureStorage'">
-    <VersionPrefix>1.1.7</VersionPrefix>
+    <VersionPrefix>1.1.8</VersionPrefix>
   </PropertyGroup>
   <PropertyGroup Condition="'$(MSBuildProjectName)' == 'Reimaginate.Orchestrator.CommandLine'">
-    <VersionPrefix>1.1.7</VersionPrefix>
+    <VersionPrefix>1.1.8</VersionPrefix>
   </PropertyGroup>
   <PropertyGroup Condition="'$(MSBuildProjectName)' == 'Reimaginate.Orchestrator.Common'">
-    <VersionPrefix>1.1.7</VersionPrefix>
+    <VersionPrefix>1.1.8</VersionPrefix>
   </PropertyGroup>
   <PropertyGroup Condition="'$(MSBuildProjectName)' == 'Reimaginate.Orchestrator.DSL'">
-    <VersionPrefix>1.1.7</VersionPrefix>
+    <VersionPrefix>1.1.8</VersionPrefix>
   </PropertyGroup>
   <PropertyGroup Condition="'$(MSBuildProjectName)' == 'Reimaginate.Orchestrator.Redis'">
-    <VersionPrefix>1.1.7</VersionPrefix>
+    <VersionPrefix>1.1.8</VersionPrefix>
   </PropertyGroup>
   <PropertyGroup Condition="'$(MSBuildProjectName)' == 'Reimaginate.Orchestrator.SourceGenerator'">
-    <VersionPrefix>1.1.7</VersionPrefix>
+    <VersionPrefix>1.1.8</VersionPrefix>
   </PropertyGroup>
   <ItemGroup>
     <OrchestratorPublicPackage Include="Reimaginate.Orchestrator.Abstractions">
       <ProjectPath>src\Reimaginate.Orchestrator.Abstractions\Reimaginate.Orchestrator.Abstractions.csproj</ProjectPath>
-      <Version>1.1.7</Version>
+      <Version>1.1.8</Version>
     </OrchestratorPublicPackage>
     <OrchestratorPublicPackage Include="Reimaginate.Orchestrator.AzureStorage">
       <ProjectPath>src\Reimaginate.Orchestrator.AzureStorage\Reimaginate.Orchestrator.AzureStorage.csproj</ProjectPath>
-      <Version>1.1.7</Version>
+      <Version>1.1.8</Version>
     </OrchestratorPublicPackage>
     <OrchestratorPublicPackage Include="Reimaginate.Orchestrator.CommandLine">
       <ProjectPath>src\Reimaginate.Orchestrator.CommandLine\Reimaginate.Orchestrator.CommandLine.csproj</ProjectPath>
-      <Version>1.1.7</Version>
+      <Version>1.1.8</Version>
     </OrchestratorPublicPackage>
     <OrchestratorPublicPackage Include="Reimaginate.Orchestrator.Common">
       <ProjectPath>src\Reimaginate.Orchestrator.Common\Reimaginate.Orchestrator.Common.csproj</ProjectPath>
-      <Version>1.1.7</Version>
+      <Version>1.1.8</Version>
     </OrchestratorPublicPackage>
     <OrchestratorPublicPackage Include="Reimaginate.Orchestrator.DSL">
       <ProjectPath>src\Reimaginate.Orchestrator.DSL\Reimaginate.Orchestrator.DSL.csproj</ProjectPath>
-      <Version>1.1.7</Version>
+      <Version>1.1.8</Version>
     </OrchestratorPublicPackage>
     <OrchestratorPublicPackage Include="Reimaginate.Orchestrator.Redis">
       <ProjectPath>src\Reimaginate.Orchestrator.Redis\Reimaginate.Orchestrator.Redis.csproj</ProjectPath>
-      <Version>1.1.7</Version>
+      <Version>1.1.8</Version>
     </OrchestratorPublicPackage>
     <OrchestratorPublicPackage Include="Reimaginate.Orchestrator.SourceGenerator">
       <ProjectPath>src\Reimaginate.Orchestrator.SourceGenerator\Reimaginate.Orchestrator.SourceGenerator.csproj</ProjectPath>
-      <Version>1.1.7</Version>
+      <Version>1.1.8</Version>
     </OrchestratorPublicPackage>
   </ItemGroup>
 </Project>

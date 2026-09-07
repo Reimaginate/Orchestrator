@@ -13,15 +13,15 @@ Typical usage:
 
 ## Final workflow output
 
-`start workflow` and `resume workflow` write an indented JSON envelope containing `workflowType`, `workflowInstanceId`, and `finalOutput` after successful execution when final output is present.
+`start workflow` and `resume workflow` can write an indented JSON envelope containing `workflowType`, `workflowInstanceId`, and `finalOutput` after successful execution when final output is present. Final output is suppressed by default, before serialization.
 
-`Orchestrator:CommandLine:EmitFinalOutput` controls this envelope and defaults to `true` for backward compatibility. Set it to `false` to suppress the envelope before serialization:
+`Orchestrator:CommandLine:EmitFinalOutput` controls this envelope and defaults to `false`. Set it to `true` to enable the envelope:
 
 ```json
 {
   "Orchestrator": {
     "CommandLine": {
-      "EmitFinalOutput": false
+      "EmitFinalOutput": true
     }
   }
 }
@@ -37,9 +37,11 @@ dotnet run -- resume workflow example.workflow.yaml <workflow-instance-id> --emi
 dotnet run -- start workflow example.workflow.yaml --emit-final-output false
 ```
 
-The bare `--emit-final-output` flag also enables output. An explicit command option takes precedence over environment variables and JSON settings; omitting it uses the configured value, which defaults to `true`. This override applies only to the current command and is not persisted with the workflow. If the workflow pauses, pass the option again when resuming to override that command's configured output behaviour.
+The bare `--emit-final-output` flag also enables output. An explicit command option takes precedence over environment variables and JSON settings; omitting it uses the configured value, which defaults to `false`. This override applies only to the current command and is not persisted with the workflow. If the workflow pauses, pass the option again when resuming to override that command's configured output behaviour.
 
-Use the standard environment-variable form in container deployments:
+**Compatibility change in 1.1.8:** version 1.1.7 emitted final output by default. Applications or scripts that depend on that console JSON must now pass `--emit-final-output`, set `Orchestrator:CommandLine:EmitFinalOutput` to `true`, or set `Orchestrator__CommandLine__EmitFinalOutput=true` to retain that behaviour.
+
+Container deployments can explicitly retain suppression using the standard environment-variable form:
 
 ```text
 Orchestrator__CommandLine__EmitFinalOutput=false
@@ -55,7 +57,7 @@ env:
 
 `OrchestratorCommandLineHost.CreateBuilder` loads environment variables after JSON settings, so this environment variable overrides JSON configuration. Custom hosts must include `AddEnvironmentVariables()` in their configuration pipeline and pass that configuration to `AddOrchestratorCommandLine(configuration)`. The existing overload without configuration remains available and uses the default options unless the host configures `OrchestratorCommandLineOptions` separately.
 
-For local debugging, leave the setting absent to retain the default output, or explicitly set it to `true`. Use `--emit-final-output true` to override an inherited environment value of `false` for one run; JSON settings do not override environment variables in the shared host. Invalid configuration boolean values are rejected when the workflow command is constructed, and invalid command-line values fail parsing before workflow execution.
+For local debugging, pass `--emit-final-output` or explicitly set the configuration to `true`. Use `--emit-final-output true` to override an inherited environment value of `false` for one run; JSON settings do not override environment variables in the shared host. Invalid configuration boolean values are rejected when the workflow command is constructed, and invalid command-line values fail parsing before workflow execution.
 
 ## Workflow input and execution options
 
