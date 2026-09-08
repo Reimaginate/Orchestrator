@@ -16,12 +16,13 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="5.6.0">
+		<PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="5.9.0">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
+		<!-- Keep the generator's Roslyn API reference compatible with the compiler hosting it (.NET SDK 10.0.302 uses 5.6). -->
 		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="5.6.0" PrivateAssets="all" />
-		<PackageReference Include="System.Collections.Immutable" Version="10.0.10" PrivateAssets="all" />
+		<PackageReference Include="System.Collections.Immutable" Version="10.0.11" PrivateAssets="all" />
 	</ItemGroup>
 
 	<ItemGroup>
