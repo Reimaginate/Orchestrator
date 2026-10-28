@@ -72,8 +72,11 @@ public sealed class SourceProjectModelLoader
             SourceCodeKind.Regular);
         var syntaxTrees = await LoadSyntaxTreesAsync(projectInfo.CompileFiles, parseOptions, cancellationToken);
         var sourceTypes = ExtractSourceTypes(syntaxTrees, cancellationToken);
-        var metadataReferences = CreateMetadataReferences(projectInfo, projectReferences);
-        var compilationReferences = projectReferences
+        // SDK project references are transitive. Roslyn does not automatically expose
+        // a compilation reference's dependencies to the consuming compilation.
+        var compilationProjects = GetCompilationProjects(projectReferences);
+        var metadataReferences = CreateMetadataReferences(projectInfo, compilationProjects);
+        var compilationReferences = compilationProjects
             .Select(reference => reference.Compilation.ToMetadataReference())
             .ToArray();
 
@@ -103,6 +106,29 @@ public sealed class SourceProjectModelLoader
         }
 
         return loaded;
+    }
+
+    private static IReadOnlyList<SourceProjectModel> GetCompilationProjects(IReadOnlyList<SourceProjectModel> projects)
+    {
+        var visited = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        var result = new List<SourceProjectModel>();
+        var pending = new Queue<SourceProjectModel>(projects);
+        while (pending.Count > 0)
+        {
+            var project = pending.Dequeue();
+            if (!visited.Add(project.ProjectInfo.ProjectPath))
+            {
+                continue;
+            }
+
+            result.Add(project);
+            foreach (var reference in project.ReferencedProjects)
+            {
+                pending.Enqueue(reference);
+            }
+        }
+
+        return result;
     }
 
     private static async Task<IReadOnlyList<SyntaxTree>> LoadSyntaxTreesAsync(
